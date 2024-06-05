@@ -29,8 +29,7 @@ class ObjectDetectionDataset(Dataset):
 @gin.configurable
 def gaussian_noise_transform(mu=1.0, sigma=0.1):
     return transforms.Compose([
-        #transforms.ToTensor(),
-        GaussianNoise(mu, sigma)
+        GaussianNoise(mu, sigma),
     ])
 
 
