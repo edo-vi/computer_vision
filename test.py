@@ -4,21 +4,27 @@ import lightning
 import numpy as np
 from DenoisingAE import DenoisingAE
 from DataLoader import gaussian_noise_transform, show_image, ObjectDetectionDataset
+import torch
+from ultralytics import YOLO
+
+model = YOLO()
+
+# model.model = torch.compile(model.model)
 
 np.random.seed(100)
 
 gin.parse_config_file("config.cfg")
 
-ae = DenoisingAE()
-transform = gaussian_noise_transform()
-print(transform)
 
 dataset = ObjectDetectionDataset()
 
-#show_image(dataset)
+show_image(dataset)
 
+img = dataset[13]
 
-val = ae(dataset[0])
+results = model(torch.tensor(img).unsqueeze(0).float())
 
+# print(results)
 
-print(ae.params())
+ae = DenoisingAE()
+ae(img)
