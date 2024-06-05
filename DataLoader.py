@@ -40,6 +40,8 @@ class GaussianNoise(object):
         self.sigma = sigma
         
     def __call__(self, x):
+        # Independent gaussian noise for each channel AND each image.
+        # This should make it harder.
         x[0,:,:] += np.random.normal(self.mu, self.sigma, (x.shape[1], x.shape[2]))
         x[1,:,:] += np.random.normal(self.mu, self.sigma, (x.shape[1], x.shape[2]))
         x[2,:,:] += np.random.normal(self.mu, self.sigma, (x.shape[1], x.shape[2]))
