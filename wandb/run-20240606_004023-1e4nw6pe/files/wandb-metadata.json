@@ -1,0 +1,148 @@
+{
+    "os": "Linux-6.5.0-25-generic-x86_64-with-glibc2.35",
+    "python": "3.10.0",
+    "heartbeatAt": "2024-06-05T22:40:23.935219",
+    "startedAt": "2024-06-05T22:40:23.274198",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "test.py",
+    "codePathLocal": "test.py",
+    "codePath": "test.py",
+    "git": {
+        "remote": "git@github.com:edo-vi/aiproject.git",
+        "commit": "c1ac9f85bd92128ecbf13684d0246a40a5ec1a94"
+    },
+    "email": "edovi@icloud.com",
+    "root": "/home/edoardo/aiproject",
+    "host": "edo-fisso-ubuntu",
+    "username": "edoardo",
+    "executable": "/home/edoardo/anaconda3/envs/aiproject/bin/python",
+    "cpu_count": 12,
+    "cpu_count_logical": 20,
+    "cpu_freq": {
+        "current": 2830.1393,
+        "min": 800.0,
+        "max": 4580.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 2446.073,
+            "min": 800.0,
+            "max": 4800.0
+        },
+        {
+            "current": 801.522,
+            "min": 800.0,
+            "max": 4800.0
+        },
+        {
+            "current": 3157.779,
+            "min": 800.0,
+            "max": 4800.0
+        },
+        {
+            "current": 800.0,
+            "min": 800.0,
+            "max": 4800.0
+        },
+        {
+            "current": 2612.113,
+            "min": 800.0,
+            "max": 4800.0
+        },
+        {
+            "current": 2725.989,
+            "min": 800.0,
+            "max": 4800.0
+        },
+        {
+            "current": 1167.977,
+            "min": 800.0,
+            "max": 4800.0
+        },
+        {
+            "current": 799.423,
+            "min": 800.0,
+            "max": 4800.0
+        },
+        {
+            "current": 1333.126,
+            "min": 800.0,
+            "max": 4900.0
+        },
+        {
+            "current": 1057.868,
+            "min": 800.0,
+            "max": 4900.0
+        },
+        {
+            "current": 1790.337,
+            "min": 800.0,
+            "max": 4900.0
+        },
+        {
+            "current": 823.618,
+            "min": 800.0,
+            "max": 4900.0
+        },
+        {
+            "current": 2610.021,
+            "min": 800.0,
+            "max": 4800.0
+        },
+        {
+            "current": 3715.994,
+            "min": 800.0,
+            "max": 4800.0
+        },
+        {
+            "current": 2398.31,
+            "min": 800.0,
+            "max": 4800.0
+        },
+        {
+            "current": 800.0,
+            "min": 800.0,
+            "max": 4800.0
+        },
+        {
+            "current": 1878.139,
+            "min": 800.0,
+            "max": 3600.0
+        },
+        {
+            "current": 2459.888,
+            "min": 800.0,
+            "max": 3600.0
+        },
+        {
+            "current": 800.0,
+            "min": 800.0,
+            "max": 3600.0
+        },
+        {
+            "current": 2318.641,
+            "min": 800.0,
+            "max": 3600.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 354.5911064147949,
+            "used": 267.3230667114258
+        }
+    },
+    "gpu": "NVIDIA GeForce RTX 3060 Ti",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce RTX 3060 Ti",
+            "memory_total": 8589934592
+        }
+    ],
+    "memory": {
+        "total": 15.327144622802734
+    }
+}

@@ -1,5 +1,5 @@
 import gin
-import torch
+from wandb.integration.ultralytics import add_wandb_callback
 import lightning
 import numpy as np
 from DenoisingAE import DenoisingAE
@@ -21,9 +21,12 @@ dataset = ObjectDetectionDataset()
 # show_image(dataset)
 
 img = dataset[65]
-
+add_wandb_callback(model, enable_model_checkpointing=True)
 results = model.train(
-    data="african_wildlife.yaml", epochs=2, imgsz=640, project="aiproject", name="t"
+    data="african_wildlife.yaml",
+    epochs=20,
+    imgsz=640,
+    project="aiproject",
 )
 
 # print(results)
