@@ -18,11 +18,13 @@ gin.parse_config_file("config.cfg")
 
 dataset = ObjectDetectionDataset()
 
-show_image(dataset)
+# show_image(dataset)
 
-img = dataset[13]
+img = dataset[65]
 
-results = model(torch.tensor(img).unsqueeze(0).float())
+results = model.train(
+    data="african_wildlife.yaml", epochs=2, imgsz=640, project="aiproject", name="t"
+)
 
 # print(results)
 

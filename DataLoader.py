@@ -12,7 +12,7 @@ import numpy as np
 class ObjectDetectionDataset(Dataset):
     def __init__(self, classes=4, transform=None) -> None:
         super().__init__()
-        self.img_path = "data"
+        self.img_path = "datasets/african_wildlife"
         self.classes = classes
         self.transform = transform()
 
@@ -20,7 +20,7 @@ class ObjectDetectionDataset(Dataset):
         return len([a for a in os.listdir(self.img_path)])
 
     def __getitem__(self, index):
-        cls = 3
+        cls = 4
         path = os.path.join(self.img_path, "train", "images", f"{cls} ({index}).jpg")
         if self.transform is None:
             return read_image(path)
@@ -32,7 +32,7 @@ class ObjectDetectionDataset(Dataset):
 def gaussian_noise_transform(mu=0.0, sigma=0.2):
     return transforms.Compose(
         [
-            transforms.Resize((640, 640)),  # To make it perfectly match the enc -> dec
+            # transforms.Resize(640),  # To make it perfectly match the enc -> dec
             transforms.Lambda(lambda x: x / x.max().item()),  # From 0 to 1
             GaussianNoise(mu, sigma),
         ]
@@ -73,12 +73,13 @@ class GaussianNoise(object):
 
 def show_image(data):
     figure = plt.figure(figsize=(8, 8))
-    cols, rows = 1, 1
+    cols, rows = 2, 2
     for i in range(1, cols * rows + 1):
-        sample_idx = 13
-        img = data[sample_idx]
-        figure.add_subplot(rows, cols, i)
-        plt.axis("off")
-        # Need to transpose because the images have shape [C, W, H]
-        plt.imshow(np.transpose(img, [1, 2, 0]))
+        sample_idx = [351, 352, 353, 358]
+        for j in sample_idx:
+            img = data[j]
+            figure.add_subplot(rows, cols, i)
+            plt.axis("off")
+            # Need to transpose because the images have shape [C, W, H]
+            plt.imshow(np.transpose(img, [1, 2, 0]))
     plt.show()
