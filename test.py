@@ -17,9 +17,8 @@ dataset = ObjectDetectionDataset()
 
 #show_image(dataset)
 
-print(dataset[0].shape)
+
 val = ae(dataset[0])
 
-print(val.shape)
 
 print(ae.params())

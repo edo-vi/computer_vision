@@ -29,6 +29,7 @@ class ObjectDetectionDataset(Dataset):
 @gin.configurable
 def gaussian_noise_transform(mu=1.0, sigma=0.1):
     return transforms.Compose([
+        transforms.Resize((375, 671)), # To make it perfectly match the enc -> dec 
         GaussianNoise(mu, sigma),
     ])
 
