@@ -1,4 +1,8 @@
 datasets
+tb_logs
+lightning_logs
+runs
+wandb 
 .DS_Store
 # Byte-compiled / optimized / DLL files
 __pycache__/

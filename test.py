@@ -1,9 +1,10 @@
 import gin
-from wandb.integration.ultralytics import add_wandb_callback
-import lightning
+
+# from wandb.integration.ultralytics import add_wandb_callback
+from Trainer import trainDenoisingAETrainer
 import numpy as np
 from DenoisingAE import DenoisingAE
-from DataLoader import gaussian_noise_transform, show_image, ObjectDetectionDataset
+from DataLoader import show_pair, show_image, AfricanWildlifeDataset
 import torch
 from ultralytics import YOLO
 
@@ -16,20 +17,22 @@ np.random.seed(100)
 gin.parse_config_file("config.cfg")
 
 
-dataset = ObjectDetectionDataset()
+dataset = AfricanWildlifeDataset()
 
-# show_image(dataset)
+show_image(dataset)
 
-img = dataset[65]
-add_wandb_callback(model, enable_model_checkpointing=True)
-results = model.train(
-    data="african_wildlife.yaml",
-    epochs=20,
-    imgsz=640,
-    project="aiproject",
-)
+# add_wandb_callback(model, enable_model_checkpointing=True)
+# results = model.train(
+#     data="african_wildlife.yaml",
+#     epochs=20,
+#     imgsz=640,
+#     # project="aiproject",
+# )
 
 # print(results)
 
+img, label = dataset[1000]
 ae = DenoisingAE()
-ae(img)
+decoded = ae(img)
+
+show_pair(img, decoded)
