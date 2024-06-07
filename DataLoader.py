@@ -76,11 +76,9 @@ class GaussianNoise(object):
         self.sigma = sigma
 
     def __call__(self, x):
-        # Independent gaussian noise for each channel AND each image.
-        # This should make it harder.
-        x[0, :, :] += np.random.normal(self.mu, self.sigma, (x.shape[1], x.shape[2]))
-        x[1, :, :] += np.random.normal(self.mu, self.sigma, (x.shape[1], x.shape[2]))
-        x[2, :, :] += np.random.normal(self.mu, self.sigma, (x.shape[1], x.shape[2]))
+        np.random.seed(314)
+        noise = torch.normal(self.mu, self.sigma, x.shape)
+        x += noise
 
         return x
 
@@ -89,7 +87,7 @@ class GaussianNoise(object):
 
 
 def show_image(data):
-    figure = plt.figure(figsize=(8, 8))
+    figure = plt.figure(figsize=(12, 12))
     cols, rows = 2, 1
     for i in range(1, int((cols * rows) / 2) + 1):
         sample_idx = torch.randint(len(data), size=(1,)).item()
@@ -114,7 +112,7 @@ def show_image(data):
 
 
 def show_pair(im1, im2):
-    figure = plt.figure(figsize=(8, 8))
+    figure = plt.figure(figsize=(12, 12))
     cols, rows = 2, 1
     for i in range(1, int((cols * rows) / 2) + 1):
 
@@ -134,4 +132,40 @@ def show_pair(im1, im2):
             im = im2.detach().numpy()
             plt.imshow(np.transpose(im, [1, 2, 0]))
 
+    plt.show()
+
+
+def show_triple(im1, im2, im3, tags=None):
+    figure = plt.figure(figsize=(15, 15))
+    cols, rows = 3, 1
+
+    figure.add_subplot(rows, cols, 1)
+    plt.axis("off")
+    if tags:
+        plt.title(tags[0])
+    try:
+        plt.imshow(np.transpose(im1, [1, 2, 0]))
+    except:
+        im = im1.detach().numpy()
+        plt.imshow(np.transpose(im1, [1, 2, 0]))
+
+    figure.add_subplot(rows, cols, 2)
+    plt.axis("off")
+    if tags:
+        plt.title(tags[1])
+    try:
+        plt.imshow(np.transpose(im2, [1, 2, 0]))
+    except:
+        im = im2.detach().numpy()
+        plt.imshow(np.transpose(im, [1, 2, 0]))
+
+    figure.add_subplot(rows, cols, 3)
+    plt.axis("off")
+    if tags:
+        plt.title(tags[2])
+    try:
+        plt.imshow(np.transpose(im3, [1, 2, 0]))
+    except:
+        im = im3.detach().numpy()
+        plt.imshow(np.transpose(im, [1, 2, 0]))
     plt.show()
