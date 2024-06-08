@@ -4,6 +4,7 @@ lightning_logs
 runs
 wandb 
 .DS_Store
+yolo_logs
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

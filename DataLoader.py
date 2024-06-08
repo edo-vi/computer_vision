@@ -12,16 +12,22 @@ WIDTH = 640
 
 @gin.configurable
 class AfricanWildlifeDataset(Dataset):
-
     def __init__(self, classes=4, transform=None, kind="train") -> None:
         super().__init__()
         assert kind in ["train", "test", "valid"]
-        self.img_path = os.path.join("datasets", "african_wildlife", kind, "images")
+        self.kind = kind
+        self.img_path = os.path.join("datasets", "wildlife", kind, "images")
         self.list_dir = [a for a in os.listdir(self.img_path)]
+        self.image_dimensions = [
+            (-1, -1) for _ in range(len(self.list_dir))
+        ]  # lazy evaluation, only when __getitem__
         self.classes = classes
         self.normalize = normalize_transform()
         if transform:
-            self.transform = transform()
+            try:
+                self.transform = transform()
+            except:
+                self.transform = transform
         else:
             self.transform = transform
 
@@ -31,37 +37,52 @@ class AfricanWildlifeDataset(Dataset):
     def __getitem__(self, index):
         name = self.list_dir[index]
         path = os.path.join(self.img_path, name)
+        img = read_image(path)
+        # Add the dimension to the list
+        self.image_dimensions[index] = img.shape
         if self.transform is None:
             return (
-                self.normalize(read_image(path)),
-                self.normalize(read_image(path)),
+                self.normalize(img),
+                self.normalize(img),
             )
         else:
             # Return the original image as label
             return (
-                self.transform(read_image(path)),
-                self.normalize(read_image(path)),
+                self.transform(img),
+                self.normalize(img),
             )
 
 
 @gin.configurable
-def gaussian_noise_transform(mu=0.0, sigma=0.2):
-    return transforms.Compose(
-        [
-            transforms.Resize(
-                (WIDTH, WIDTH)
-            ),  # To make it perfectly match the enc -> dec
-            transforms.Lambda(lambda x: x / x.max().item()),  # From 0 to 1
-            GaussianNoise(mu, sigma),
-            transforms.Lambda(
-                lambda x: (x - x.min().item()) / (x.max().item() - x.min().item())
-            ),  # Renormalize from 0 to 1 because
-            # gaussian noise could have changed the range
-        ]
-    )
+def gaussian_noise_transform(mu=0.0, sigma=0.2, width=None):
+    if width:
+        return transforms.Compose(
+            [
+                transforms.Resize(
+                    (WIDTH, WIDTH)
+                ),  # To make it perfectly match the enc -> dec
+                transforms.Lambda(lambda x: x / x.max().item()),  # From 0 to 1
+                GaussianNoise(mu, sigma),
+                transforms.Lambda(
+                    lambda x: (x - x.min().item()) / (x.max().item() - x.min().item())
+                ),  # Renormalize from 0 to 1 because
+                # gaussian noise could have changed the range
+            ]
+        )
+    else:
+        return transforms.Compose(
+            [
+                transforms.Lambda(lambda x: x / x.max().item()),  # From 0 to 1
+                GaussianNoise(mu, sigma),
+                transforms.Lambda(
+                    lambda x: (x - x.min().item()) / (x.max().item() - x.min().item())
+                ),  # Renormalize from 0 to 1 because
+                # gaussian noise could have changed the range
+            ]
+        )
 
 
-def normalize_transform():
+def normalize_transform(width=640):
     return transforms.Compose(
         [
             transforms.Resize((WIDTH, WIDTH)),
@@ -76,7 +97,7 @@ class GaussianNoise(object):
         self.sigma = sigma
 
     def __call__(self, x):
-        np.random.seed(314)
+        np.random.seed(314)  # to fix
         noise = torch.normal(self.mu, self.sigma, x.shape)
         x += noise
 
@@ -84,6 +105,46 @@ class GaussianNoise(object):
 
     def __repr__(self):
         return self.__class__.__name__ + f"({self.mu}, {self.sigma})"
+
+
+@gin.configurable
+def bernoulli_noise_transform(p=0.1, width=None):
+    if width:
+        return transforms.Compose(
+            [
+                transforms.Resize(
+                    (WIDTH, WIDTH)
+                ),  # To make it perfectly match the enc -> dec
+                transforms.Lambda(lambda x: x / x.max().item()),  # From 0 to 1
+                BernoulliNoise(p),
+            ]
+        )
+    else:
+        return transforms.Compose(
+            [
+                transforms.Lambda(lambda x: x / x.max().item()),  # From 0 to 1
+                BernoulliNoise(p),
+                transforms.Lambda(
+                    lambda x: (x - x.min().item()) / (x.max().item() - x.min().item())
+                ),  # Renormalize from 0 to 1 because
+                # gaussian noise could have changed the range
+            ]
+        )
+
+
+class BernoulliNoise(object):
+    def __init__(self, p=0.1) -> None:
+        self.p = p
+
+    def __call__(self, x) -> torch.Any:
+        np.random.seed(314)
+        mask0 = np.where(torch.rand((x.shape[1], x.shape[2])) < self.p / 2, True, False)
+        mask0 = np.stack([mask0, mask0, mask0])
+        mask1 = np.where(torch.rand((x.shape[1], x.shape[2])) < self.p / 2, True, False)
+        mask1 = np.stack([mask1, mask1, mask1])
+        x[mask0] = 0.0
+        x[mask1] = 1.0
+        return x
 
 
 def show_image(data):
