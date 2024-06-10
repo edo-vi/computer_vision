@@ -1,0 +1,9 @@
+names:
+  0: buffalo
+  1: elephant
+  2: rhino
+  3: zebra
+path: ../datasets/wildlife_gaussian_0.1_v0
+test: test/images
+train: train/images
+val: valid/images

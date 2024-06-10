@@ -196,6 +196,27 @@ def show_pair(im1, im2):
     plt.show()
 
 
+def show_images(*args, tags=None):
+    if tags:
+        assert len(args) == len(tags)
+    len_img = 6 + len(args) * 3
+    figure = plt.figure(figsize=(len_img, 12))
+    cols, rows = len(args), 1
+
+    for i in range(len(args)):
+        im = args[i]
+        figure.add_subplot(rows, cols, i + 1)
+        plt.axis("off")
+        if tags:
+            plt.title(tags[i])
+        try:
+            plt.imshow(np.transpose(im, [1, 2, 0]))
+        except:
+            im = im.detach().numpy()
+            plt.imshow(np.transpose(im, [1, 2, 0]))
+    plt.show()
+
+
 def show_triple(im1, im2, im3, tags=None):
     figure = plt.figure(figsize=(15, 15))
     cols, rows = 3, 1

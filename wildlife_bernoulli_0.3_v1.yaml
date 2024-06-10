@@ -3,7 +3,7 @@ names:
   1: elephant
   2: rhino
   3: zebra
-path: ../datasets/wildlife_0.2_v1
+path: ../datasets/wildlife_bernoulli_0.3_v1
 test: test/images
 train: train/images
 val: valid/images
