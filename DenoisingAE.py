@@ -110,17 +110,21 @@ class DenoisingAE(LightningModule):
         return f(dec)
 
     def training_step(self, batch, batch_idx):
-        inputs, target = batch
+        # inputs are the noisy images, targets are the original images
+        inputs, targets = batch
         output = self(inputs)
-        loss = F.mse_loss(output, target)
+        loss = F.mse_loss(output, targets)
+        # Log metric to logger (tensorboard or wandb etc.)
         self.log_dict({"train_loss": loss})
 
         return loss
 
     def validation_step(self, batch, batch_idx):
-        inputs, target = batch
+        # inputs are the noisy images, targets are the original images
+        inputs, target2 = batch
         output = self(inputs)
-        loss = F.mse_loss(output, target)
+        loss = F.mse_loss(output, target2)
+        # Log metric to logger (tensorboard or wandb etc.)
         self.log_dict({"val_loss": loss})
 
     def configure_optimizers(self):

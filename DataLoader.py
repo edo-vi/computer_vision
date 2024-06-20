@@ -7,7 +7,7 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 
-WIDTH = 640
+WIDTH = 320
 
 
 @gin.configurable

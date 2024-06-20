@@ -5,6 +5,7 @@ runs
 wandb 
 .DS_Store
 yolo_logs
+resnet/*
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

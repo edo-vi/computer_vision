@@ -1,7 +1,0 @@
-Class&Images&Instances&P&R&mAP50&mAP50-95
-Class&Images&Instances&Prec.&Rec&mAP50&mAP50-95\\\hline
-all&225&379&0.942&0.91&0.953&0.827\\\hline
-buffalo&62&89&0.951&0.899&0.948&0.824\\
-elephant&53&91&0.909&0.876&0.931&0.802\\
-rhino&55&85&0.965&0.963&0.975&0.873\\
-zebra&59&114&0.945&0.903&0.959&0.808\\
