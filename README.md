@@ -15,3 +15,5 @@ The main files are the following:
 I thoroughly commented the files so as to be as clear as possible.
 
 To make things easy, the notebook have already the results that I have used in the report. I'm also including the datasets.
+
+NOTE: due to github file limit, I couldn't upload the datasets and the resnet checkpoints in the end. If you want train the resnet, run the train_denoising.ipynb with the resnet option, and if you want to create the dataset run make_datasets.ipynb"
