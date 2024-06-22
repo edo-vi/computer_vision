@@ -1,3 +1,8 @@
+"""
+This file contains all the dataset related functions and classes: the Dataset instance,
+the DataLoader, the noises etc.
+"""
+
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms
 from torchvision.io import read_image
@@ -147,55 +152,7 @@ class BernoulliNoise(object):
         return x
 
 
-def show_image(data):
-    figure = plt.figure(figsize=(12, 12))
-    cols, rows = 2, 1
-    for i in range(1, int((cols * rows) / 2) + 1):
-        sample_idx = torch.randint(len(data), size=(1,)).item()
-        img, label = data[sample_idx]
-        figure.add_subplot(rows, cols, i)
-        plt.axis("off")
-        try:
-            plt.imshow(np.transpose(label, [1, 2, 0]))
-        except:
-            im = img.detach().numpy()
-            plt.imshow(np.transpose(label, [1, 2, 0]))
-
-        figure.add_subplot(rows, cols, i + 1)
-        plt.axis("off")
-        try:
-            plt.imshow(np.transpose(img, [1, 2, 0]))
-        except:
-            im = img.detach().numpy()
-            plt.imshow(np.transpose(im, [1, 2, 0]))
-
-    plt.show()
-
-
-def show_pair(im1, im2):
-    figure = plt.figure(figsize=(12, 12))
-    cols, rows = 2, 1
-    for i in range(1, int((cols * rows) / 2) + 1):
-
-        figure.add_subplot(rows, cols, i)
-        plt.axis("off")
-        try:
-            plt.imshow(np.transpose(im1, [1, 2, 0]))
-        except:
-            im = im1.detach().numpy()
-            plt.imshow(np.transpose(im1, [1, 2, 0]))
-
-        figure.add_subplot(rows, cols, i + 1)
-        plt.axis("off")
-        try:
-            plt.imshow(np.transpose(im2, [1, 2, 0]))
-        except:
-            im = im2.detach().numpy()
-            plt.imshow(np.transpose(im, [1, 2, 0]))
-
-    plt.show()
-
-
+# Show the images
 def show_images(*args, tags=None):
     if tags:
         assert len(args) == len(tags)
@@ -214,40 +171,4 @@ def show_images(*args, tags=None):
         except:
             im = im.detach().numpy()
             plt.imshow(np.transpose(im, [1, 2, 0]))
-    plt.show()
-
-
-def show_triple(im1, im2, im3, tags=None):
-    figure = plt.figure(figsize=(15, 15))
-    cols, rows = 3, 1
-
-    figure.add_subplot(rows, cols, 1)
-    plt.axis("off")
-    if tags:
-        plt.title(tags[0])
-    try:
-        plt.imshow(np.transpose(im1, [1, 2, 0]))
-    except:
-        im = im1.detach().numpy()
-        plt.imshow(np.transpose(im1, [1, 2, 0]))
-
-    figure.add_subplot(rows, cols, 2)
-    plt.axis("off")
-    if tags:
-        plt.title(tags[1])
-    try:
-        plt.imshow(np.transpose(im2, [1, 2, 0]))
-    except:
-        im = im2.detach().numpy()
-        plt.imshow(np.transpose(im, [1, 2, 0]))
-
-    figure.add_subplot(rows, cols, 3)
-    plt.axis("off")
-    if tags:
-        plt.title(tags[2])
-    try:
-        plt.imshow(np.transpose(im3, [1, 2, 0]))
-    except:
-        im = im3.detach().numpy()
-        plt.imshow(np.transpose(im, [1, 2, 0]))
     plt.show()

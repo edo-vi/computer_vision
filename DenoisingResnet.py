@@ -8,11 +8,14 @@ import torch
 
 WIDTH = 320
 
+"""The Resnet denoising model"""
+
 
 class DenoisingResnet(LightningModule):
     def __init__(self, freeze=True) -> None:
         super().__init__()
         self.kind = "resnet"
+        # Load pre-trained weights
         self.model = resnet18(ResNet18_Weights)
         # Change head
         self.model.fc = nn.Linear(512, out_features=3 * WIDTH * WIDTH)
@@ -31,7 +34,7 @@ class DenoisingResnet(LightningModule):
             x = torch.unsqueeze(x, 0)
         if x.shape[1:] != (3, WIDTH, WIDTH):
             raise Exception(f"Only 3x{WIDTH}x{WIDTH} images are supported")
-        return F.sigmoid(self.model.forward(x)).reshape((-1, 3, WIDTH, WIDTH))
+        return F.relu(self.model.forward(x)).reshape((-1, 3, WIDTH, WIDTH))
 
     def training_step(self, batch, batch_idx):
         # inputs are the noisy images, targets are the original images
